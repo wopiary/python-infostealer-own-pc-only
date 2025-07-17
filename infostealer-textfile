@@ -1,0 +1,64 @@
+from datetime import datetime
+import os 
+import getpass
+import socket
+import platform
+import uuid
+
+textname = 'meow_meow_hacklog.txt'
+
+
+#DATE AND TIME
+def dateandtime():
+    dateandtimenow = datetime.now()
+    with open(textname, 'w') as file:
+        file.write('DATE AND TIME RAN: \n'+ str(dateandtimenow) + '\n')
+        file.write('\n')
+dateandtime()
+
+
+#USER NAME
+def username():
+    usernameofpc = getpass.getuser()
+    with open(textname, 'a') as file:
+        file.write('PC USERNAME: \n'+ str(usernameofpc) + '\n')
+        file.write('\n')
+username()
+
+
+#DEVICE NAME
+def devname():
+    devicename = socket.gethostname()
+    with open(textname, 'a') as file:
+        file.write('DEVICE NAME: \n'+ str(devicename) + '\n')
+        file.write('\n') 
+devname()
+
+
+#IP ADDRESS
+def ipaddr():
+    devicename = socket.gethostname()
+    ipaddress = socket.gethostbyname(devicename)
+    with open(textname, 'a') as file:
+            file.write('IP: \n'+ str(ipaddress) + '\n')
+            file.write('\n') 
+ipaddr()
+
+
+#OS NAME
+def osnameversion():
+    osname = platform.uname()
+    with open(textname, 'a') as file:
+            file.write('OS NAME: \n'+ str(osname) + '\n')
+            file.write('\n') 
+osnameversion()
+
+
+#CPU ARCHITECTURE
+def cpuarchi():
+    cpu = platform.architecture()
+    with open(textname, 'a') as file:
+
+            file.write('CPU ARCHITECTURE: \n'+ str(cpu) + '\n')
+            file.write('\n') 
+cpuarchi()
