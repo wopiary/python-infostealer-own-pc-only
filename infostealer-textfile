@@ -62,3 +62,13 @@ def cpuarchi():
             file.write('CPU ARCHITECTURE: \n'+ str(cpu) + '\n')
             file.write('\n') 
 cpuarchi()
+
+#MAC ADDRESS
+def macaddr():
+    mac_addr = gma()
+    with open(textname, 'a') as file:
+            file.write('MAC ADDRESS: \n'+ str(mac_addr) + '\n')
+            file.write('\n') 
+macaddr()
+
+
