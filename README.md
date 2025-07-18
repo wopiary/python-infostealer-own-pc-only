@@ -1,6 +1,6 @@
 # python-infostealer-own-pc-only
 ------------------------------------
-once the script has been ran, .exe or vs code date and time username, device name, priv ip, pub ip, os version/name, cpu archi, mac address and keystrokes [press esc to end, keylogger only]. it will save it on a local text file (meow_meow_hacklog but u can change this if u want to lowk)
+once the script has been ran, .exe or vs code date and time username, device name, priv ip, pub ip, os version/name, cpu archi, mac address, takes pictures using camera, and keystrokes [press esc to end, keylogger only]. it will save it on a local text file (meow_meow_hacklog but u can change this if u want to lowk)
 ------------------------------------
 
 
